@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard penjualan pt my hobby</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f4f4f9;
+    }
+    header {
+      background-color: #4c66af;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .dashboard {
+      max-width: 1200px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    canvas {
+      max-width: 100%;
+      height: 400px;
+    }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dashboard Penjualan Tahunan Pt My Hobby Shop Rent</h1>
+  </header>
+  <div class="dashboard">
+    <canvas id="salesChart"></canvas>
+  </div>
+  <footer>
+    <p>Designed to visualize sales performance effectively. Explore insights and trends at a glance.</p>
+  </footer>
+
+  <script>
+    // Sample sales data in Indonesian Rupiah
+    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const salesData = [75000000, 105000000, 120000000, 97500000, 135000000, 165000000, 150000000, 142500000, 180000000, 195000000, 187500000, 210000000];
+
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(255, 94, 87, 0.8)');
+    gradient.addColorStop(0.5, 'rgba(255, 159, 64, 0.8)');
+    gradient.addColorStop(1, 'rgba(255, 206, 86, 0.8)');
+
+    const salesChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Penjualan Bulanan dalam Rupiah (IDR)',
+            data: salesData,
+            backgroundColor: gradient,
+            borderColor: 'rgba(255, 94, 87, 1)',
+            borderWidth: 2,
+            hoverBackgroundColor: 'rgba(75, 192, 192, 0.8)',
+            hoverBorderColor: 'rgba(75, 192, 192, 1)'
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                size: 16,
+              },
+              color: '#333',
+            },
+          },
+          title: {
+            display: true,
+            text: ' Kinerja Penjualan Tahunan (IDR)',
+            font: {
+              size: 24,
+            },
+            color: '#333',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return 'IDR ' + tooltipItem.raw.toLocaleString('id-ID');
+              }
+            },
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            titleFont: {
+              size: 16
+            },
+            bodyFont: {
+              size: 14
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Penjualan dalam IDR',
+              color: '#333',
+              font: {
+                size: 16,
+              },
+            },
+            grid: {
+              color: 'rgba(200, 200, 200, 0.2)',
+            },
+            ticks: {
+              callback: function(value) {
+                return 'IDR ' + value.toLocaleString('id-ID');
+              },
+              color: '#333',
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Months',
+              color: '#333',
+              font: {
+                size: 16,
+              },
+            },
+            grid: {
+              display: false,
+            },
+            ticks: {
+              color: '#333',
+            },
+          },
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutQuint',
+        },
+      },
+    });
+  </script>
+</body>
+</html>
